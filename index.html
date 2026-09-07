@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1f1725" />
+    <meta name="description" content="RESCENE 팝업 스토어 구매 계산기" />
+    <title>RESCENE POP-UP / 구매 계산기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Gowun+Batang:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="RESCENE 팝업 스토어 홈">
+        <span class="brand-mark" aria-hidden="true">R</span>
+        <span>
+          <strong>RESCENE</strong>
+          <small>POP-UP PURCHASE CALCULATOR</small>
+        </span>
+      </a>
+      <div class="header-actions">
+        <span class="save-state" id="saveState"><span class="status-dot"></span>저장 동의 전</span>
+        <button class="text-button" id="storageSettings" type="button">저장 설정</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero wrap" aria-labelledby="pageTitle">
+        <div class="hero-copy">
+          <p class="eyebrow"><span>Scent Archive</span><span>Calculator</span></p>
+          <h1 id="pageTitle">오늘의 픽을<br /><em>향처럼</em> 담아두세요.</h1>
+          <p class="hero-note">리센느 팝업 스토어의 상품을 골라보세요.<br />수량을 입력하면 바로 예상 금액을 계산해드려요.</p>
+          <div class="hero-meta" aria-label="사용 안내">
+            <span><b>29</b> items</span>
+            <span><b>KRW</b> price guide</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-label">MEMORIES<br /><span>OF RESCENE</span></div>
+          <div class="art-bottle"><div class="bottle-cap"></div><div class="bottle-body">R</div></div>
+          <div class="art-note note-one">keep<br />your scene</div>
+          <div class="art-note note-two">Scent<br />archive</div>
+          <div class="art-sticker">POP-UP<br /><strong>2026</strong></div>
+        </div>
+      </section>
+
+      <section class="toolbar wrap" aria-label="상품 탐색">
+        <div class="toolbar-title">
+          <span class="section-kicker">SHOPPING LIST</span>
+          <h2>구매할 상품을 골라주세요</h2>
+        </div>
+        <label class="search-box">
+          <span class="sr-only">상품 검색</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+          <input id="searchInput" type="search" placeholder="상품명 검색" autocomplete="off" />
+        </label>
+      </section>
+
+      <section class="content-grid wrap">
+        <div class="product-area">
+          <div class="filter-row" role="tablist" aria-label="상품 필터">
+            <button class="filter-button active" type="button" data-filter="all" role="tab" aria-selected="true">전체 <span id="allCount">30</span></button>
+            <button class="filter-button" type="button" data-filter="selected" role="tab" aria-selected="false">담은 상품 <span id="selectedCount">0</span></button>
+          </div>
+          <div id="productGroups"></div>
+          <p class="empty-state" id="emptyState" hidden>조건에 맞는 상품이 없습니다.</p>
+        </div>
+
+        <aside class="summary-panel" aria-labelledby="summaryTitle">
+          <div class="summary-topline"><span>MY SCENE</span><span id="itemCountLabel">0 items</span></div>
+          <h2 id="summaryTitle">나의 구매 리스트</h2>
+          <p class="summary-helper">수량을 담으면 이곳에 모아볼 수 있어요.</p>
+          <div class="summary-list" id="summaryList">
+            <div class="summary-empty">아직 담은 상품이 없어요.<br />마음에 드는 상품을 골라보세요.</div>
+          </div>
+          <div class="total-block">
+            <span>예상 총 금액</span>
+            <strong id="totalAmount">₩0</strong>
+          </div>
+          <div class="summary-actions">
+            <button class="primary-button" id="copySummary" type="button"><span aria-hidden="true">↗</span> 구매 리스트 복사</button>
+            <button class="secondary-button" id="resetCart" type="button">전체 수량 초기화</button>
+          </div>
+          <p class="summary-footnote">가격과 재고는 현장 운영에 따라 달라질 수 있어요.</p>
+        </aside>
+      </section>
+    </main>
+
+    <div class="mobile-total" aria-label="현재 예상 총 금액">
+      <div><span>예상 총 금액</span><strong id="mobileTotalAmount">₩0</strong></div>
+      <button class="primary-button" id="mobileCopySummary" type="button">리스트 복사</button>
+    </div>
+
+    <div class="modal-backdrop" id="storageModal" hidden>
+      <section class="storage-modal" role="dialog" aria-modal="true" aria-labelledby="storageTitle">
+        <button class="modal-close" id="closeStorage" type="button" aria-label="저장 설정 닫기">×</button>
+        <div class="modal-icon" aria-hidden="true">✦</div>
+        <p class="section-kicker">YOUR SCENE, YOUR DEVICE</p>
+        <h2 id="storageTitle">수량을 이 기기에<br />저장할까요?</h2>
+        <p>동의하면 입력한 구매 수량과 계산 결과가 이 브라우저에 저장돼요. 다음에 다시 방문해도 이어서 확인할 수 있어요.</p>
+        <p class="privacy-note">저장되는 정보는 상품 수량뿐이며, 외부 서버로 전송되지 않습니다.</p>
+        <div class="modal-actions">
+          <button class="primary-button" id="allowStorage" type="button">이 기기에 저장하기</button>
+          <button class="secondary-button" id="denyStorage" type="button">저장하지 않기</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <footer class="site-footer wrap"><span>RESCENE POP-UP PURCHASE CALCULATOR</span><span>Made for REMINE</span></footer>
+    <script src="script.js"></script>
+  </body>
+</html>
